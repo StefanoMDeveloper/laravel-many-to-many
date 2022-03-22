@@ -6,9 +6,9 @@
     <p>{!! $post->content !!}</p>
     <p>{{ $post->slug }}</p>
     <p>
-        @foreach ($post->$tags as $tag)
+        @foreach ($post->tags as $tag)
             {{ $tag->name }}
-        @endforeach                        
+        @endforeach                   
     </p>
 
     <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST">
