@@ -5,6 +5,11 @@
     <h1>{{ $post->title }}</h1>
     <p>{!! $post->content !!}</p>
     <p>{{ $post->slug }}</p>
+    <p>
+        @foreach ($post->$tags as $tag)
+            {{ $tag->name }}
+        @endforeach                        
+    </p>
 
     <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST">
         @csrf

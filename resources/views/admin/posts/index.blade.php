@@ -8,10 +8,13 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">title</th>
-                <th scope="col">content</th>
-                <th scope="col">slug</th>
-                <th scope="col">category</th>
+                <th scope="col">Title</th>
+                <th scope="col">Content</th>
+                <th scope="col">Slug</th>
+                <th scope="col">Category</th>
+                <th scope="col">Tags</th>
+                <th scope="col">Category</th>
+                <th scope="col">Buttons</th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +25,11 @@
                     <td>{{ $post->content }}</th>
                     <td>{{ $post->slug }}</th>
                     <td>{{$post->category ? $post->category->name : 'No category'}}</td>
+                    <td>
+                        @foreach ($post->tags as $tag)
+                            {{ $tag->name }}
+                        @endforeach
+                    </td>
                     <td>
                         <a href="{{ route('admin.posts.show', $post->id) }}"><button type="button"
                                 class="btn btn-primary">vedi</button></a>
