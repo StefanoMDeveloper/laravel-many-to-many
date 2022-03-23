@@ -29,16 +29,15 @@
             </select>
         </div>
 
-        @foreach ($tags as $tag)
-                
+        @foreach ($tags as $elemento)
             <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="{{$tag->id}}" id="{{$tag->slug}}" name="tags[]">
-            <label class="form-check-label" for="{{$tag->slug}}">
-                {{$tag->name}}
-            </label>
+                <input class="form-check-input" type="checkbox" name="tags[]" value="{{$elemento->id}}" id="{{$elemento->slug}}"
+                {{ in_array($elemento->id, old('tags', [])) ? " checked" : ""}}>
+                <label class="form-check-label" for="{{$elemento->slug}}">
+                    {{$elemento->name}}
+                </label>
             </div>
-
-        @endforeach  
+        @endforeach
 
         <button type="submit" class="btn btn-primary">Crea</button>
     </form>

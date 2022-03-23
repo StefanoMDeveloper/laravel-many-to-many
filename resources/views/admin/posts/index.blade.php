@@ -13,7 +13,6 @@
                 <th scope="col">Slug</th>
                 <th scope="col">Category</th>
                 <th scope="col">Tags</th>
-                <th scope="col">Category</th>
                 <th scope="col">Buttons</th>
             </tr>
         </thead>
@@ -24,7 +23,7 @@
                     <td>{{ $post->title }}</th>
                     <td>{{ $post->content }}</th>
                     <td>{{ $post->slug }}</th>
-                    <td>{{$post->category ? $post->category->name : 'No category'}}</td>
+                    <td>{{ $post->category ? $post->category->name : 'No category'}}</td>
                     <td>
                         @foreach ($post->tags as $tag)
                             {{ $tag->name }}

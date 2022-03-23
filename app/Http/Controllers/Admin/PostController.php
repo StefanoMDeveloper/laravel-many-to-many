@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\Category;
 use App\Tag;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -28,8 +29,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        $tags = Tag::all();
-        return view('admin.posts.index', compact('posts', 'tags'));
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -58,7 +58,8 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required',
             'content' => 'required',
-            'category_id' => 'nullable|exists:categories,id'
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'array'
         ]);
 
         $data = $request->all();
@@ -68,6 +69,7 @@ class PostController extends Controller
 
         $newPost->fill($data);
         $newPost->save();
+        $newPost->tags()->sync(isset($data['tags']) ? $data['tags'] : []);
         return redirect()->route('admin.posts.index', $newPost->id);
     }
 
@@ -91,7 +93,8 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::all();
-        return view('admin.posts.edit', compact('post', 'categories'));
+        $tags = Tag::all();
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -105,13 +108,16 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'content' => 'required'
+            'content' => 'required',
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'array'
         ]);
 
         $data = $request->all();
         $data["slug"] = ($post->title == $data['title']) ? $post->slug : $this->slug($data["title"], $post->id);
         $post->update($data);
-        return redirect()->route('admin.posts.index');
+        $post->tags()->sync(isset($data['tags']) ? $data['tags'] : []);
+        return redirect()->route('admin.posts.index', $post->id);
     }
 
     /**
